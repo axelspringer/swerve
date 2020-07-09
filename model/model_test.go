@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/TetsuyaXD/evade/model"
+	"github.com/axelspringer/swerve/model"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

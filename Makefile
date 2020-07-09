@@ -1,10 +1,10 @@
 GO=go
 RACE := $(shell test $$(go env GOARCH) != "amd64" || (echo "-race"))
 GOFLAGS= 
-BIN=bin/evade
+BIN=bin/swerve
 VERSION := $(shell git rev-parse HEAD)
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-IMAGE="axelspringer/evade"
+IMAGE="axelspringer/swerve"
 
 all: build/local
 
@@ -27,14 +27,14 @@ deps:
 	$(GO) get github.com/sirupsen/logrus
 
 test/local:
-	ginkgo --race --cover --coverprofile "$(ROOT_DIR)/evade.coverprofile" ./...
-	go tool cover -html=evade.coverprofile -o evade_test_coverage.html
+	ginkgo --race --cover --coverprofile "$(ROOT_DIR)/swerve.coverprofile" ./...
+	go tool cover -html=swerve.coverprofile -o swerve_test_coverage.html
 
 build/local: test/local
 	$(GO) build -ldflags "-X main.Version=$(VERSION)" -o $(BIN) $(GOFLAGS) $(RACE) main.go
 
 deploy/local: build/linux 
-	docker restart `docker ps | grep "/evade" | awk '{printf $$1}'` 
+	docker restart `docker ps | grep "/swerve" | awk '{printf $$1}'` 
 
 build/linux: test/local
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GO) build -ldflags "-X main.Version=$(VERSION)" -o "$(BIN)_linux" $(GOFLAGS)  main.go

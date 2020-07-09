@@ -3,7 +3,7 @@ package cache
 import (
 	"sync"
 
-	"github.com/TetsuyaXD/evade/database"
+	"github.com/axelspringer/swerve/database"
 )
 
 // Cache contains the local redirect entry cache

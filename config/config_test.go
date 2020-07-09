@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/TetsuyaXD/evade/config"
+	"github.com/axelspringer/swerve/config"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -31,7 +31,7 @@ var _ = Describe("Config", func() {
 		})
 		Context("with env vars of wrong type", func() {
 			It("should throw error", func() {
-				os.Setenv("EVADE_API_LISTENER", ":foo")
+				os.Setenv("SWERVE_API_LISTENER", ":foo")
 				err := conf.FromEnv()
 				Expect(err.Error()).Should(Equal(config.ErrAPIPortInvalid))
 			})

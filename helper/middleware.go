@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/TetsuyaXD/evade/log"
+	"github.com/axelspringer/swerve/log"
 )
 
 // LoggingMiddleware logs request infos

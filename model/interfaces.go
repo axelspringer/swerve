@@ -1,6 +1,6 @@
 package model
 
-import "github.com/TetsuyaXD/evade/database"
+import "github.com/axelspringer/swerve/database"
 
 // DatabaseAdapter is the interface required for the database interacion via cache
 type DatabaseAdapter interface {

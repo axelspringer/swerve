@@ -1,7 +1,7 @@
 package config
 
 const (
-	envVarPrefix = "EVADE_"
+	envVarPrefix = "SWERVE_"
 )
 
 const (
@@ -57,7 +57,7 @@ const (
 	defaultProd            = false
 	defaultBootstrap       = false
 	defaultCacheInterval   = 10
-	defaultTableNamePrefix = "Evade"
+	defaultTableNamePrefix = "Swerve"
 	defaultDBRegion        = "eu-west-1"
 	defaultTableRedirects  = "Redirects"
 	defaultTableCertCache  = "CertCache"

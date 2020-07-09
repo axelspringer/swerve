@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/TetsuyaXD/evade/helper"
-	"github.com/TetsuyaXD/evade/log"
+	"github.com/axelspringer/swerve/helper"
+	"github.com/axelspringer/swerve/log"
 )
 
 // NewHTTPServer creates a new instance

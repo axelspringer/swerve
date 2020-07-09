@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/TetsuyaXD/evade/log"
+	"github.com/axelspringer/swerve/log"
 	"github.com/gorilla/mux"
 )
 

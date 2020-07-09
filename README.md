@@ -1,4 +1,4 @@
-# Evade
+# Swerve
 A scalable redirecting service with integrated path mapping functionality and automatic certificate issuing and renewal using a persistent certificate cache
 ## Step 1
 
@@ -34,12 +34,12 @@ LogFormatter    = "text"
 Prod            = false
 Bootstrap		= false
 CacheInterval	= 10
-TableNamePrefix = "Evade"
+TableNamePrefix = "Swerve"
 DBRegion        = "eu-west-1"
 TableRedirects  = "Domains"
 TableCertCache  = "CertCache"
 ```
 ## Step 2
-Run evade and insert your redirect records via API ([API doc](https://app.swaggerhub.com/apis-docs/TetsuyaXD/evade/1.0.0))
+Run swerve and insert your redirect records via API ([API doc](https://app.swaggerhub.com/apis-docs/TetsuyaXD/evade/1.0.0))
 ## Step 3
 Let your domains point to the HTTP/HTTPS Server

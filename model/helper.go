@@ -8,7 +8,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/TetsuyaXD/evade/database"
+	"github.com/axelspringer/swerve/database"
 )
 
 func compress(r Redirect) (database.Redirect, error) {

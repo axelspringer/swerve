@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/TetsuyaXD/evade/api"
-	"github.com/TetsuyaXD/evade/database"
+	"github.com/axelspringer/swerve/api"
+	"github.com/axelspringer/swerve/database"
 )
 
 // Configuration contains the config for the app

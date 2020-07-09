@@ -4,7 +4,7 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	"github.com/TetsuyaXD/evade/model"
+	"github.com/axelspringer/swerve/model"
 )
 
 // HTTPS is an HTTPS server

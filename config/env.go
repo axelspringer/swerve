@@ -5,7 +5,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/TetsuyaXD/evade/log"
+	"github.com/axelspringer/swerve/log"
 )
 
 // FromEnv reads the configuration from the environment

@@ -3,7 +3,7 @@ package config
 import (
 	"flag"
 
-	"github.com/TetsuyaXD/evade/log"
+	"github.com/axelspringer/swerve/log"
 )
 
 // FromParameter reads the configuration from application parameters

@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/TetsuyaXD/evade/log"
+	"github.com/axelspringer/swerve/log"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"

@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/TetsuyaXD/evade/helper"
+	"github.com/axelspringer/swerve/helper"
 
-	"github.com/TetsuyaXD/evade/log"
+	"github.com/axelspringer/swerve/log"
 )
 
 // NewHTTPSServer creates a new instance

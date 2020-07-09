@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/TetsuyaXD/evade/app"
+	"github.com/axelspringer/swerve/app"
 )
 
 func main() {

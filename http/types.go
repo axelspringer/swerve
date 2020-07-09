@@ -3,7 +3,7 @@ package http
 import (
 	"net/http"
 
-	"github.com/TetsuyaXD/evade/model"
+	"github.com/axelspringer/swerve/model"
 )
 
 // HTTP is an HTTP server

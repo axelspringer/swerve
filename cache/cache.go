@@ -5,9 +5,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/TetsuyaXD/evade/log"
+	"github.com/axelspringer/swerve/log"
 
-	"github.com/TetsuyaXD/evade/database"
+	"github.com/axelspringer/swerve/database"
 	"github.com/pkg/errors"
 )
 
@@ -75,7 +75,7 @@ func (c *Cache) Update() {
 	c.redirectsMap = map[string]*database.Redirect{}
 
 	for i, redirect := range redirects {
-		c.redirectsMap[redirect.Domain] = &redirects[i]
+		c.redirectsMap[redirect.RedirectFrom] = &redirects[i]
 	}
 }
 

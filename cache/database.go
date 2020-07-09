@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"github.com/TetsuyaXD/evade/database"
+	"github.com/axelspringer/swerve/database"
 	"github.com/pkg/errors"
 )
 
