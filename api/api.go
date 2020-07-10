@@ -25,7 +25,7 @@ func NewAPIServer(mod ModelAdapter, conf Config) *API {
 		Methods(http.MethodGet, http.MethodOptions)
 	router.HandleFunc("/version", api.version).
 		Methods(http.MethodGet, http.MethodOptions)
-	router.HandleFunc("/login", api.login).
+	router.HandleFunc("/"+conf.Version+"/login", api.login).
 		Methods(http.MethodPost, http.MethodOptions)
 
 	auth := router.PathPrefix("/" + conf.Version + "/redirects").Subrouter()
