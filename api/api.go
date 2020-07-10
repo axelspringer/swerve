@@ -95,7 +95,6 @@ func (api *API) getRedirectsPaginated(w http.ResponseWriter, r *http.Request) {
 	cursor := ""
 	if ok && len(cursorParams) != 0 {
 		cursor = cursorParams[0]
-		return
 	}
 	redirects, newCursor, err := api.Model.GetRedirectsPaginatedAsJSON(cursor)
 	if err != nil {
