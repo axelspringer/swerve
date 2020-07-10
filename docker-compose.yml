@@ -33,8 +33,8 @@ services:
       - SWERVE_DB_ENDPOINT=http://dynamodb:8000
     volumes:
       - ./bin/swerve_linux:/swerve
-    # depends_on:
-    #   - "init-dynamodb"
+    depends_on:
+      - "pebble"
     links:
       - "dynamodb"
   # local dynamodb
@@ -46,5 +46,15 @@ services:
       - dynamo_local:/data
     ports:
       - "8000:8000"
+  pebble:
+    image: letsencrypt/pebble
+    command: pebble -config /test/pebble-config.json
+    ports:
+      - 14000:14000  # ACME port
+      - 15000:15000  # Management port
+    environment:
+      - PEBBLE_VA_NOSLEEP=1
+    volumes:
+      - ./pebble-config.json:/test/pebble-config.json
 volumes:
   dynamo_local:
