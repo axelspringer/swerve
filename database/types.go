@@ -27,7 +27,7 @@ type Redirect struct {
 	Code         int     `json:"code"`
 	Created      int     `json:"created"`
 	Modified     int     `json:"modified"`
-	CPathMaps    *[]byte `json:"cpath-map,omitempty"`
+	CPathMaps    *[]byte `json:"cpath_map,omitempty"`
 }
 
 // CertCacheEntry contains a certificate for the domain

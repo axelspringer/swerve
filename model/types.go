@@ -16,7 +16,7 @@ type Redirect struct {
 	Code         int       `json:"code"`
 	Created      int       `json:"created"`
 	Modified     int       `json:"modified"`
-	PathMaps     []PathMap `json:"path-map,omitempty"`
+	PathMaps     []PathMap `json:"path_map,omitempty"`
 }
 
 // PathMap contains a condition
