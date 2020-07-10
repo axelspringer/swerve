@@ -16,6 +16,7 @@ func (api *API) corsMiddlewear(next http.Handler) http.Handler {
 			if err == nil {
 				w.Header().Set("Access-Control-Allow-Methods", strings.Join(methods, ","))
 			}
+			return
 		}
 		next.ServeHTTP(w, r)
 	})

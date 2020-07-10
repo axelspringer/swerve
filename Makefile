@@ -22,7 +22,7 @@ help:
 deps:
 	$(GO) get github.com/onsi/ginkgo/ginkgo
 	$(GO) get github.com/onsi/gomega/...
-	$(GO) get github.com/julienschmidt/httprouter
+	$(GO) get ggithub.com/gorilla/mux
 	$(GO) get github.com/aws/aws-sdk-go
 	$(GO) get github.com/sirupsen/logrus
 

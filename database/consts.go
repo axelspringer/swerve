@@ -8,7 +8,7 @@ const (
 	attrNameCode          = "code"
 	attrNameCreated       = "created"
 	attrNameModified      = "modified"
-	attrNamePathMap       = "path_map"
+	attrNamePathMap       = "cpath_map"
 )
 
 const (

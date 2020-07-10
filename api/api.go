@@ -29,20 +29,24 @@ func NewAPIServer(mod ModelAdapter, conf Config) *API {
 		Methods(http.MethodPost, http.MethodOptions)
 
 	auth := router.PathPrefix("/" + conf.Version + "/redirects").Subrouter()
+	auth.HandleFunc("/", api.createRedirect).
+		Methods(http.MethodPost)
+	auth.HandleFunc("/", api.getRedirectsPaginated).
+		Methods(http.MethodGet)
+	auth.HandleFunc("/", api.options).
+		Methods(http.MethodOptions, http.MethodGet, http.MethodPost)
 	auth.HandleFunc("/export", api.exportRedirects).
 		Methods(http.MethodGet, http.MethodOptions)
 	auth.HandleFunc("/import", api.importRedirects).
 		Methods(http.MethodPost, http.MethodOptions)
 	auth.HandleFunc("/{"+pathParamName+"}", api.getRedirect).
-		Methods(http.MethodGet, http.MethodOptions)
-	auth.HandleFunc("/", api.createRedirect).
-		Methods(http.MethodPost, http.MethodOptions)
-	auth.HandleFunc("/", api.getRedirectsPaginated).
 		Methods(http.MethodGet)
 	auth.HandleFunc("/{"+pathParamName+"}", api.deleteRedirect).
-		Methods(http.MethodDelete, http.MethodOptions)
+		Methods(http.MethodDelete)
 	auth.HandleFunc("/{"+pathParamName+"}", api.updateRedirect).
-		Methods(http.MethodPut, http.MethodOptions)
+		Methods(http.MethodPut)
+	auth.HandleFunc("/{"+pathParamName+"}", api.options).
+		Methods(http.MethodOptions, http.MethodGet, http.MethodPut, http.MethodDelete)
 	router.Use(api.corsMiddlewear)
 	auth.Use(api.corsMiddlewear)
 	auth.Use(api.authMiddlewear)
@@ -215,4 +219,7 @@ func (api *API) login(w http.ResponseWriter, r *http.Request) {
 	})
 
 	sendJSONMessage(w, "Success", http.StatusOK)
+}
+
+func (api *API) options(w http.ResponseWriter, r *http.Request) {
 }
