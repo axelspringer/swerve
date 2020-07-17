@@ -232,6 +232,27 @@ func (d *Database) ExportRedirects() ([]Redirect, error) {
 }
 
 // ImportRedirects imports a set of redirect entries
+// TODO: add limit so write capacity isn't exceeded
 func (d *Database) ImportRedirects(redirects []Redirect) error {
-	return errors.New("Yet to be implemented")
+	tablePrefix := d.Config.TableNamePrefix
+	tableName := d.Config.TableRedirects
+
+	for _, redirect := range redirects {
+		redirect.Created = int(time.Now().Unix())
+		redirect.Modified = redirect.Created
+
+		payload, err := dynamodbattribute.MarshalMap(redirect)
+		if err != nil {
+			return errors.WithMessage(err, ErrRedirectMarshal)
+		}
+
+		_, err = d.Service.PutItem(&dynamodb.PutItemInput{
+			TableName: aws.String(tablePrefix + tableName),
+			Item:      payload,
+		})
+
+		return err
+	}
+
+	return nil
 }
