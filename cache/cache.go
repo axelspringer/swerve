@@ -2,6 +2,7 @@ package cache
 
 import (
 	"context"
+	"fmt"
 	"sync"
 	"time"
 
@@ -82,7 +83,7 @@ func (c *Cache) Update() {
 // AllowHostPolicy decides which host shall pass
 func (c *Cache) AllowHostPolicy(_ context.Context, host string) error {
 	if _, err := c.GetRedirectByDomain(host); err != nil {
-		return errors.WithMessage(err, ErrHostNotConfigured)
+		return errors.WithMessage(err, fmt.Sprintf(ErrHostNotConfigured, host))
 	}
 	return nil
 }

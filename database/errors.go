@@ -38,5 +38,6 @@ const (
 
 // Error string contants - Tables
 const (
-	ErrfTableCreate = "Table '%s' could not be created"
+	ErrTableCreate       = "Table '%s' could not be created"
+	ErrDefaultUserCreate = "Default user could not be set"
 )

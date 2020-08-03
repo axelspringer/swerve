@@ -1,0 +1,13 @@
+nodePort:
+  http: 31565
+  https: 31566
+  api: 31567
+url:
+  - "swerve.prd.red.springtools.de"
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "200m"
+  limits:
+    memory: "512Mi"
+    cpu: "1"

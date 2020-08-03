@@ -16,10 +16,14 @@ func (c *Configuration) FromParameter() {
 	httpListenerPort := flag.Int(paramStrHTTPListenerPort, 0, "Set the http listener port")
 	httpsListenerPort := flag.Int(paramStrHTTPSListenerPort, 0, "Set the https listener port")
 
+	usePebble := flag.Bool(paramStrUsePebble, false, "Use pebble?")
+	pebbleCAURL := flag.String(paramStrPebbleCAURL, "", "Set the the pebble CA URL")
+	useStage := flag.Bool(paramStrUseStage, false, "Use the LetsEncrypt stage URL?")
+	letsEncryptURL := flag.String(paramStrLetsEncryptURL, "", "Set the LetsEncrypt URL")
+
 	logLevel := flag.String(paramStrLogLevel, "", "Set the log level (info,debug,warning,error,fatal,panic)")
 	logFormatter := flag.String(paramStrLogFormatter, "", "Set the log formatter (text,json)")
 
-	prod := flag.Bool(paramStrProd, false, "Is prod?")
 	boostrap := flag.Bool(paramStrBootstrap, false, "Is bootstrap?")
 	cacheInterval := flag.Int(paramStrCacheInterval, 0, "Set cache interval in minutes")
 
@@ -64,6 +68,26 @@ func (c *Configuration) FromParameter() {
 		c.HTTPSListenerPort = *httpsListenerPort
 	}
 
+	if usePebble != nil && *usePebble {
+		params[paramStrUsePebble] = *usePebble
+		c.ACM.UsePebble = *usePebble
+	}
+
+	if pebbleCAURL != nil && *pebbleCAURL != "" {
+		params[paramStrPebbleCAURL] = *pebbleCAURL
+		c.ACM.PebbleCAURL = *pebbleCAURL
+	}
+
+	if useStage != nil && *useStage {
+		params[paramStrUseStage] = *useStage
+		c.ACM.UseStage = *useStage
+	}
+
+	if letsEncryptURL != nil && *letsEncryptURL != "" {
+		params[paramStrLetsEncryptURL] = *letsEncryptURL
+		c.ACM.LetsEncryptURL = *letsEncryptURL
+	}
+
 	if logLevel != nil && *logLevel != "" {
 		params[paramStrLogLevel] = *logLevel
 		c.LogLevel = *logLevel
@@ -72,11 +96,6 @@ func (c *Configuration) FromParameter() {
 	if logFormatter != nil && *logFormatter != "" {
 		params[paramStrLogFormatter] = *logFormatter
 		c.LogFormatter = *logFormatter
-	}
-
-	if prod != nil && *prod {
-		params[paramStrProd] = true
-		c.Prod = true
 	}
 
 	if boostrap != nil && *boostrap {

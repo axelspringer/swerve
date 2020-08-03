@@ -9,6 +9,10 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/axelspringer/swerve/helper"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	"github.com/axelspringer/swerve/log"
 	"github.com/gorilla/mux"
 )
@@ -21,32 +25,32 @@ func NewAPIServer(mod ModelAdapter, conf Config) *API {
 	}
 
 	router := mux.NewRouter()
+	router.Use(helper.LoggingMiddleware)
+
+	router.HandleFunc("/metrics", api.prometheusHandler).
+		Methods(http.MethodGet)
 	router.HandleFunc("/health", api.health).
 		Methods(http.MethodGet, http.MethodOptions)
 	router.HandleFunc("/version", api.version).
 		Methods(http.MethodGet, http.MethodOptions)
-	router.HandleFunc("/"+conf.Version+"/login", api.login).
+	router.HandleFunc("/login", api.login).
 		Methods(http.MethodPost, http.MethodOptions)
 
 	auth := router.PathPrefix("/" + conf.Version + "/redirects").Subrouter()
-	auth.HandleFunc("/", api.createRedirect).
-		Methods(http.MethodPost)
-	auth.HandleFunc("/", api.getRedirectsPaginated).
-		Methods(http.MethodGet)
-	auth.HandleFunc("/", api.options).
-		Methods(http.MethodOptions, http.MethodGet, http.MethodPost)
 	auth.HandleFunc("/export", api.exportRedirects).
 		Methods(http.MethodGet, http.MethodOptions)
 	auth.HandleFunc("/import", api.importRedirects).
 		Methods(http.MethodPost, http.MethodOptions)
 	auth.HandleFunc("/{"+pathParamName+"}", api.getRedirect).
+		Methods(http.MethodGet, http.MethodOptions)
+	auth.HandleFunc("/", api.createRedirect).
+		Methods(http.MethodPost, http.MethodOptions)
+	auth.HandleFunc("/", api.getRedirectsPaginated).
 		Methods(http.MethodGet)
 	auth.HandleFunc("/{"+pathParamName+"}", api.deleteRedirect).
-		Methods(http.MethodDelete)
+		Methods(http.MethodDelete, http.MethodOptions)
 	auth.HandleFunc("/{"+pathParamName+"}", api.updateRedirect).
-		Methods(http.MethodPut)
-	auth.HandleFunc("/{"+pathParamName+"}", api.options).
-		Methods(http.MethodOptions, http.MethodGet, http.MethodPut, http.MethodDelete)
+		Methods(http.MethodPut, http.MethodOptions)
 	router.Use(api.corsMiddlewear)
 	auth.Use(api.corsMiddlewear)
 	auth.Use(api.authMiddlewear)
@@ -220,5 +224,7 @@ func (api *API) login(w http.ResponseWriter, r *http.Request) {
 	sendJSONMessage(w, "Success", http.StatusOK)
 }
 
-func (api *API) options(w http.ResponseWriter, r *http.Request) {
+func (api *API) prometheusHandler(w http.ResponseWriter, r *http.Request) {
+	h := promhttp.Handler()
+	h.ServeHTTP(w, r)
 }

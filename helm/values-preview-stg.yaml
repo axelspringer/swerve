@@ -1,0 +1,13 @@
+nodePort:
+  http: 32665
+  https: 32666
+  api: 32667
+url:
+  - "swerve.stg.red.springtools.de"
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "200m"
+  limits:
+    memory: "512Mi"
+    cpu: "1"

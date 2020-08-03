@@ -1,11 +1,11 @@
 package database
 
 import (
-	"github.com/axelspringer/swerve/log"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/axelspringer/swerve/log"
 	"github.com/pkg/errors"
 )
 
@@ -38,18 +38,25 @@ func NewDatabase(c Config) (*Database, error) {
 
 // Prepare prepares the database
 func (d *Database) Prepare() error {
+	log.Debug("Preparing tables")
 	err := d.prepareTable(d.Config.TableRedirects, keyNameRedirectsTable)
 	if err != nil {
-		return errors.WithMessagef(err, ErrfTableCreate, d.Config.TableRedirects)
+		return errors.WithMessagef(err, ErrTableCreate, d.Config.TableRedirects)
 	}
 	err = d.prepareTable(d.Config.TableCertCache, keyNameCertCacheTable)
 	if err != nil {
-		return errors.WithMessagef(err, ErrfTableCreate, d.Config.TableCertCache)
+		return errors.WithMessagef(err, ErrTableCreate, d.Config.TableCertCache)
 	}
 	err = d.prepareTable(d.Config.TableUsers, keyNameUsersTable)
 	if err != nil {
-		return errors.WithMessagef(err, ErrfTableCreate, d.Config.TableUsers)
+		return errors.WithMessagef(err, ErrTableCreate, d.Config.TableUsers)
 	}
+	// TODO: the default user should either be optional or configurable via envs
+	err = d.createDefaultUser()
+	if err != nil {
+		return errors.WithMessage(err, ErrDefaultUserCreate)
+	}
+
 	return nil
 }
 
@@ -80,5 +87,27 @@ func (d *Database) prepareTable(tableName string, keyName string) error {
 		}
 		log.Infof("Table '%s' created", tableName)
 	}
+	return nil
+}
+
+func (d *Database) createDefaultUser() error {
+	tablePrefix := d.Config.TableNamePrefix
+
+	log.Infof("Creating default user '%s'", defaultDynamoUser)
+	_, err := d.Service.PutItem(&dynamodb.PutItemInput{
+		TableName: aws.String(tablePrefix + d.Config.TableUsers),
+		Item: map[string]*dynamodb.AttributeValue{
+			keyNameUsersTable: {
+				S: aws.String(defaultDynamoUser),
+			},
+			attrNamePwd: {
+				S: aws.String(defaultDynamoPassword),
+			},
+		},
+	})
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

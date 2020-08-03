@@ -31,13 +31,26 @@ services:
       - SWERVE_DB_KEY=0
       - SWERVE_DB_SECRET=0
       - SWERVE_DB_ENDPOINT=http://dynamodb:8000
+      - SWERVE_USE_PEBBLE=1
+      - SWERVE_LETSENCRYPT_URL=https://localhost:14000/dir
+      - SWERVE_PEBBLE_CA_URL=https://localhost:15000/roots/0
     volumes:
-      - ./bin/swerve_linux:/swerve
+      - ./bin/swerve_linux/main:/swerve
     depends_on:
       - "pebble"
+      - "dynamodb"
     links:
       - "dynamodb"
-  # local dynamodb
+  # local CA (letsencrypt)
+  pebble:
+    image: letsencrypt/pebble
+    restart: always
+    ports:
+    - "14000:14000"
+    - "15000:15000"
+    environment:
+      - PEBBLE_VA_ALWAYS_VALID=1
+  # dynamodb
   dynamodb:
     image: dwmkerr/dynamodb:latest
     command: "-sharedDb -dbPath /data"
@@ -46,15 +59,5 @@ services:
       - dynamo_local:/data
     ports:
       - "8000:8000"
-  pebble:
-    image: letsencrypt/pebble
-    command: pebble -config /test/pebble-config.json
-    ports:
-      - 14000:14000  # ACME port
-      - 15000:15000  # Management port
-    environment:
-      - PEBBLE_VA_NOSLEEP=1
-    volumes:
-      - ./pebble-config.json:/test/pebble-config.json
 volumes:
   dynamo_local:

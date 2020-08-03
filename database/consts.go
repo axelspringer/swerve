@@ -1,5 +1,6 @@
 package database
 
+// dynamodb field names
 const (
 	keyNameRedirectsTable = "redirect_from"
 	attrNameDescription   = "description"
@@ -9,14 +10,14 @@ const (
 	attrNameCreated       = "created"
 	attrNameModified      = "modified"
 	attrNamePathMap       = "cpath_map"
-)
-
-const (
 	keyNameCertCacheTable = "domain"
 	attrNameCacheValue    = "cert"
+	keyNameUsersTable     = "username"
+	attrNamePwd           = "pwd"
 )
 
+// default values
 const (
-	keyNameUsersTable = "username"
-	attrNamePwd       = "pwd"
+	defaultDynamoUser     = "admin"
+	defaultDynamoPassword = "$2a$12$gh.TtSizoP0JFLHACOdIouPr42713m6k/8fH8jKPl0xQAUBk0OIdS"
 )

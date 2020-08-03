@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/axelspringer/swerve/acm"
 	"github.com/axelspringer/swerve/api"
 	"github.com/axelspringer/swerve/database"
 )
@@ -9,11 +10,11 @@ import (
 type Configuration struct {
 	Database          database.Config
 	API               api.Config
+	ACM               acm.Config
 	HTTPListenerPort  int
 	HTTPSListenerPort int
 	LogLevel          string
 	LogFormatter      string
-	Prod              bool
 	Bootstrap         bool
 	CacheInterval     int
 }

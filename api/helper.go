@@ -17,7 +17,7 @@ func sendJSON(w http.ResponseWriter, data []byte, code int) {
 func sendJSONMessage(w http.ResponseWriter, msg string, code int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
-	w.Write([]byte(fmt.Sprintf("{\"message\":\"%s\"}", msg)))
+	w.Write([]byte(fmt.Sprintf("{\"code\":%d,\"message\":\"%s\"}", code, msg)))
 }
 
 func sendTextMessage(w http.ResponseWriter, msg string, code int) {

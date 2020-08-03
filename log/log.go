@@ -16,6 +16,7 @@ func SetupLogger(level string, outType string) {
 	if logLevel, err := logrus.ParseLevel(level); err == nil {
 		logger.SetLevel(logLevel)
 	}
+	// logger.WithField("a", "b")
 
 	outType = strings.ToLower(outType)
 
@@ -31,7 +32,7 @@ func SetupLogger(level string, outType string) {
 
 // Fatal wraps log.Fatal
 func Fatal(args ...interface{}) {
-	logger.Fatal(args)
+	logger.Fatal(args...)
 }
 
 // Fatalf wraps log.Fatalf
@@ -41,7 +42,7 @@ func Fatalf(fmt string, args ...interface{}) {
 
 // Debug wraps log.Debug
 func Debug(args ...interface{}) {
-	logger.Debug(args)
+	logger.Debug(args...)
 }
 
 // Debugf wraps log.Debugf
@@ -51,7 +52,7 @@ func Debugf(fmt string, args ...interface{}) {
 
 // Info wraps log.Info
 func Info(args ...interface{}) {
-	logger.Info(args)
+	logger.Info(args...)
 }
 
 // Infof wraps log.Infof
@@ -61,7 +62,7 @@ func Infof(fmt string, args ...interface{}) {
 
 // Warn wraps log.Warn
 func Warn(args ...interface{}) {
-	logger.Warn(args)
+	logger.Warn(args...)
 }
 
 // Warnf wraps log.Warnf
@@ -71,7 +72,7 @@ func Warnf(fmt string, args ...interface{}) {
 
 // Error wraps log.Error
 func Error(args ...interface{}) {
-	logger.Error(args)
+	logger.Error(args...)
 }
 
 // Errorf wraps log.Errorf

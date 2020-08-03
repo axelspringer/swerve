@@ -5,6 +5,8 @@ import (
 	"os/signal"
 	"syscall"
 
+	phm "github.com/axelspringer/swerve/prometheus"
+
 	"github.com/axelspringer/swerve/acm"
 	"github.com/axelspringer/swerve/api"
 	"github.com/axelspringer/swerve/cache"
@@ -49,22 +51,24 @@ func (a *Application) Setup() error {
 		}
 	}
 
+	prom := phm.NewPHM()
 	a.Cache = cache.NewCache(db)
 
 	controlModel := model.NewModel(a.Cache)
 
 	autocertManager := acm.NewACM(a.Cache.AllowHostPolicy,
 		a.Cache,
-		!a.Config.Prod)
+		a.Config.ACM)
 
 	a.HTTPServer = http.NewHTTPServer(controlModel.GetRedirectByDomain,
 		autocertManager.HTTPHandler,
-		a.Config.HTTPListenerPort)
+		a.Config.HTTPListenerPort,
+		prom.WrapHandler)
 
 	a.HTTPSServer = https.NewHTTPSServer(controlModel.GetRedirectByDomain,
 		autocertManager.GetCertificate,
-		a.Config.HTTPSListenerPort)
-
+		a.Config.HTTPSListenerPort,
+		prom.WrapHandler)
 	a.APIServer = api.NewAPIServer(controlModel, a.Config.API)
 
 	return nil

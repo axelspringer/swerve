@@ -14,6 +14,10 @@ import (
 func (c *Configuration) Validate() error {
 	errs := make(map[string]string)
 
+	if c.API.Version == "" {
+		errs[paramStrAPIVersion] = "No API Version specified"
+	}
+
 	if c.API.Listener > 65535 || c.API.Listener < 1 {
 		errs[paramStrAPIListenerPort] = "Port invalid - Valid range: 1-65535"
 	}
@@ -73,6 +77,23 @@ func (c *Configuration) Validate() error {
 	_, err = url.ParseRequestURI(c.Database.Endpoint)
 	if c.API.COR == "" || err != nil {
 		errs[paramStrAPIUIURL] = "Invalid URL"
+	}
+
+	if c.ACM.UsePebble && c.ACM.LetsEncryptURL == "" {
+		errs[envStrUsePebble] = "When using pebble, you must provide a custom LetsEncrypt URL"
+	}
+
+	_, err = url.ParseRequestURI(c.ACM.PebbleCAURL)
+	if c.ACM.UsePebble && c.ACM.PebbleCAURL != "" && err != nil {
+		errs[paramStrPebbleCAURL] = "Invalid pebble CA URL"
+	}
+
+	_, err = url.ParseRequestURI(c.ACM.LetsEncryptURL)
+	if !c.ACM.UsePebble &&
+		!c.ACM.UseStage &&
+		c.ACM.LetsEncryptURL != "" &&
+		err != nil {
+		errs[paramStrLetsEncryptURL] = "Invalid LetsEncrypt URL"
 	}
 
 	if len(errs) > 0 {

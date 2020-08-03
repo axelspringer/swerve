@@ -1,0 +1,9 @@
+nodePort:
+  http: 32665
+  https: 32666
+  api: 32667
+url:
+  - "swerve.stg.red.springtools.de"
+  - "swerve.dev.red.springtools.de"
+  - "swerve.dev-1.red.springtools.de"
+  - "swerve.dev-2.red.springtools.de"

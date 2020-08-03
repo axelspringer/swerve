@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	"github.com/axelspringer/swerve/helper"
 	"github.com/axelspringer/swerve/log"
 )
@@ -11,17 +13,22 @@ import (
 // NewHTTPServer creates a new instance
 func NewHTTPServer(getRedirect GetRedirect,
 	acmHandler ACMHandler,
-	listener int) *HTTP {
+	listener int,
+	wrapHandler func(string, http.Handler) http.Handler) *HTTP {
 	server := &HTTP{
 		ACMHandler:  acmHandler,
 		getRedirect: getRedirect,
 		listener:    listener,
 	}
 
+	mux := http.NewServeMux()
+	mux.Handle("/metrics", promhttp.Handler())
+	mux.Handle("/", wrapHandler("HTTP", helper.LoggingMiddleware(server.handler())))
+
 	addr := ":" + strconv.Itoa(listener)
 	server.server = &http.Server{
 		Addr:    addr,
-		Handler: helper.LoggingMiddleware(server.handler()),
+		Handler: mux,
 	}
 
 	return server
@@ -42,17 +49,14 @@ func (h *HTTP) handler() http.Handler {
 func (h *HTTP) handleRedirect(w http.ResponseWriter, r *http.Request) {
 	hostHeader := r.Host
 	redirect, err := h.getRedirect(hostHeader)
-	msg := "Response with status code %d"
 
 	// regular domain lookup
 	if err == nil {
 		redirectURL, redirectCode := redirect.GetRedirect(r.URL)
 		http.Redirect(w, r, redirectURL, redirectCode)
-		log.Infof(msg, redirectCode)
 		return
 	}
 
-	log.Infof(msg, http.StatusNotFound)
 	http.NotFound(w, r)
 }
 

@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/axelspringer/swerve/acm"
 	"github.com/axelspringer/swerve/api"
 	"github.com/axelspringer/swerve/database"
 )
@@ -11,11 +12,13 @@ func NewConfiguration() *Configuration {
 		API: api.Config{
 			Listener: defaultAPIListener,
 		},
+		ACM: acm.Config{
+			PebbleCA: defaultPebbleCACert,
+		},
 		HTTPListenerPort:  defaultHTTPListener,
 		HTTPSListenerPort: defaultHTTPSListener,
 		LogLevel:          defaultLogLevel,
 		LogFormatter:      defaultLogFormatter,
-		Prod:              defaultProd,
 		Bootstrap:         defaultBootstrap,
 		CacheInterval:     defaultCacheInterval,
 		Database: database.Config{
@@ -23,6 +26,7 @@ func NewConfiguration() *Configuration {
 			Region:          defaultDBRegion,
 			TableRedirects:  defaultTableRedirects,
 			TableCertCache:  defaultTableCertCache,
+			TableUsers:      defaultTableUsers,
 		},
 	}
 }
