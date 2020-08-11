@@ -1,0 +1,8 @@
+nodePort:
+  http: 31565
+  https: 31566
+  api: 31567
+url:
+  - "swerve.prd.red.springtools.de"
+  - "swerve.prd-1.red.springtools.de"
+  - "swerve.prd-2.red.springtools.de"
